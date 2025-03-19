@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "proyecto-mlops-prueba-poetry"
+version = "0.1.0"
+description = ""
+authors = ["Chris6995 <c.donaire95@gmail.com>"]
+readme = "README.md"
+packages = [{include = "proyecto_mlops_prueba_poetry", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
