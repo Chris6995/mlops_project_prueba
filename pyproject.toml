@@ -8,6 +8,15 @@ packages = [{include = "proyecto_mlops_prueba_poetry", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+jupyter = "^1.1.1"
+pandas = "^2.2.3"
+pyarrow = "^19.0.1"
+matplotlib = "^3.10.1"
+statsmodels = "^0.14.4"
+plotly-express = "^0.4.1"
+tqdm = "^4.67.1"
+scikit-learn = "^1.6.1"
+joblib = "^1.4.2"
 
 
 [build-system]
