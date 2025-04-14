@@ -17,6 +17,8 @@ plotly-express = "^0.4.1"
 tqdm = "^4.67.1"
 scikit-learn = "^1.6.1"
 joblib = "^1.4.2"
+ipykernel = "^6.29.5"
+xgboost = "^3.0.0"
 
 
 [build-system]
