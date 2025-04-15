@@ -5,6 +5,8 @@ from typing import Tuple
 from typing import Optional, List
 from paths import RAW_DATA_DIR, TRANSFORMED_DATA_DIR
 from pathlib import Path
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 # ---------------------------------------------------
 # Descargar datos
@@ -210,3 +212,65 @@ def transform_to_features_and_target(
     y = df_location['target']
 
     return X, y, df_location
+
+
+# ---------------------------------------------------
+# Cargar datos de un año
+# ---------------------------------------------------
+
+def load_last_12_months_data(end_date: datetime) -> pd.DataFrame:
+    """
+    Carga los datos de los 12 meses anteriores a una fecha dada (end_date),
+    realiza la transformación de columnas y filtra por fechas válidas.
+    
+    Args:
+        end_date (datetime): Fecha de corte (no incluida)
+    
+    Returns:
+        pd.DataFrame: DataFrame combinado y validado con columnas:
+                      ['pickup_datetime', 'pickup_location_id']
+    """
+    rides_all = pd.DataFrame()
+
+    # Calcular el primer mes a cargar (12 meses atrás)
+    start_date = end_date - relativedelta(months=12)
+
+    current_date = start_date
+    while current_date < end_date:
+        year = current_date.year
+        month = current_date.month
+
+        print(f"Descargando datos de {year}-{month:02d}")
+        try:
+            # Descargar archivo
+            download_one_file_of_raw_data(year, month)
+
+            # Cargar parquet
+            df_raw = pd.read_parquet(f"../data/raw/rides_{year}_{month:02}.parquet")
+            print(f"Datos cargados desde ../data/raw/rides_{year}_{month:02}.parquet")
+
+            # Seleccionar y renombrar columnas
+            rides = df_raw[['tpep_pickup_datetime','PULocationID']].copy()
+            rides.rename(columns={
+                'tpep_pickup_datetime': 'pickup_datetime',
+                'PULocationID': 'pickup_location_id'
+            }, inplace=True)
+
+            # Filtrar por fechas del mes actual
+            month_start = datetime(year, month, 1)
+            if month == 12:
+                month_end = datetime(year + 1, 1, 1)
+            else:
+                month_end = datetime(year, month + 1, 1)
+            rides = rides[(rides.pickup_datetime >= month_start) & 
+                          (rides.pickup_datetime < month_end)]
+
+            rides_all = pd.concat([rides_all, rides])
+
+        except Exception as e:
+            print(f"❌ Error en {year}-{month:02d}: {e}")
+
+        current_date += relativedelta(months=1)
+
+    rides_all = rides_all.sort_values("pickup_datetime").reset_index(drop=True)
+    return rides_all
