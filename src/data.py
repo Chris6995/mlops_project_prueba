@@ -189,29 +189,41 @@ def create_lag_features(df: pd.DataFrame, n_lags: int = 24) -> pd.DataFrame:
 # ---------------------------------------------------
 
 
+from typing import Optional, Tuple
+import pandas as pd
+
 def transform_to_features_and_target(
     ts_data: pd.DataFrame, 
-    location_id: int, 
+    location_id: Optional[int] = None, 
     n_lags: int = 24
-) -> Tuple[pd.DataFrame, pd.Series]:
+) -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame]:
     """
-    Prepara los datos de una localización concreta como features y target para entrenar un modelo.
+    Prepara los datos como features y target para entrenar un modelo.
+    Si se especifica `location_id`, se filtran los datos por esa localización.
 
     Args:
-        ts_data (pd.DataFrame): DataFrame completo con columnas ['pickup_hour', 'pickup_location_id', 'rides']
-        location_id (int): ID de la zona que queremos usar
-        n_lags (int): número de lags
+        ts_data (pd.DataFrame): DataFrame con ['pickup_hour', 'pickup_location_id', 'rides']
+        location_id (int, optional): ID de la zona a usar. Si None, se usan todos los datos.
+        n_lags (int): número de lags (horas previas) a usar como features
 
     Returns:
-        Tuple con X (features) e y (target)
+        Tuple: X (features), y (target), df_location (datos procesados)
     """
-    df_location = ts_data.loc[ts_data.pickup_location_id == location_id].copy()
+    df_location = ts_data.copy()
+
+    if location_id is not None:
+        df_location = df_location[df_location.pickup_location_id == location_id].copy()
+
+    # Aseguramos orden correcto antes de crear lags
+    df_location = df_location.sort_values('pickup_hour').reset_index(drop=True)
+
     df_location = create_lag_features(df_location, n_lags=n_lags)
 
     X = df_location.drop(columns=['target', 'pickup_hour', 'pickup_location_id'])
     y = df_location['target']
 
     return X, y, df_location
+
 
 
 # ---------------------------------------------------
