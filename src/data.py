@@ -230,7 +230,7 @@ def transform_to_features_and_target(
 # Cargar datos de un año
 # ---------------------------------------------------
 
-def load_last_12_months_data(end_date: datetime) -> pd.DataFrame:
+def load_last_12_months_data(end_date: datetime, months_ago: int = 12) -> pd.DataFrame:
     """
     Carga los datos de los 12 meses anteriores a una fecha dada (end_date),
     realiza la transformación de columnas y filtra por fechas válidas.
@@ -245,7 +245,7 @@ def load_last_12_months_data(end_date: datetime) -> pd.DataFrame:
     rides_all = pd.DataFrame()
 
     # Calcular el primer mes a cargar (12 meses atrás)
-    start_date = end_date - relativedelta(months=12)
+    start_date = end_date - relativedelta(months=months_ago)
 
     current_date = start_date
     while current_date < end_date:
