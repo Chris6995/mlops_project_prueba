@@ -246,8 +246,8 @@ def load_last_12_months_data(end_date: datetime, months_ago: int = 12) -> pd.Dat
 
     # Calcular el primer mes a cargar (12 meses atrás)
     start_date = end_date - relativedelta(months=months_ago)
-
     current_date = start_date
+
     while current_date < end_date:
         year = current_date.year
         month = current_date.month
