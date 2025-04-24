@@ -1,0 +1,92 @@
+name: Taxi-Demand-Pipelines        # Nombre del workflow, se ve en la pestaña Actions
+
+on:
+  schedule:                       # Disparadores basados en cron
+    - cron: '5 * * * *'           # Cada hora, minuto 5 → dispara el pipeline de features
+    - cron: '0 1 * * *'           # Cada día a la 1:00 AM → dispara el pipeline de entrenamiento
+    - cron: '10 * * * *'          # Cada hora, minuto 10 → dispara el pipeline de inferencia
+  workflow_dispatch:              # Permite lanzar manualmente este workflow desde GitHub UI
+
+jobs:
+  setup:                          # Job “setup” prepara el entorno común a todos los demás
+    runs-on: ubuntu-latest        # Se ejecuta en un runner de GitHub con Ubuntu
+    outputs:                      # Define salidas que otros jobs pueden usar
+      cache-hit: ${{ steps.cache.outputs.cache-hit }}
+    steps:                        # Pasos que se ejecutan dentro del job setup
+      - uses: actions/checkout@v3
+        # Clona tu repositorio en el runner, imprescindible para acceder al código
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+        # Instala Python 3.10 en el runner
+
+      - name: Cache Poetry env    # Paso con nombre personalizado
+        id: cache                 # Asigna un identificador para referenciar sus salidas
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry              # Carpeta a cachear (dependencias Poetry)
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          # Clave de cache única basada en el SO y el hash de poetry.lock
+
+      - name: Install dependencies
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          poetry config virtualenvs.create false
+          poetry install --no-interaction --no-ansi
+        # Instala Poetry, desactiva envs separados y hace "poetry install"
+
+  feature:                        # Job para ejecutar el feature pipeline
+    needs: setup                  # Depende de que el job setup termine con éxito
+    if: github.event_name == 'schedule' && github.event.schedule == '5 * * * *'
+    # Solo corre si el disparador fue el cron de minuto 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with: python-version: '3.10'
+      - name: Run feature pipeline
+        run: |
+          PYTHONPATH="$PWD" \
+          python -m src.pipelines.feature_pipeline $(date +'%Y_%m')
+        # Llama al módulo Python que genera features, pasando YYYY_MM
+        # PYTHONPATH="$PWD" habilita los imports desde tu carpeta src/
+
+  train:                          # Job para el entrenamiento del modelo
+    needs: setup
+    if: github.event_name == 'schedule' && github.event.schedule == '0 1 * * *'
+    # Solo corre si el disparador fue el cron diario a la 1 AM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with: python-version: '3.10'
+      - name: Run train pipeline
+        run: |
+          PYTHONPATH="$PWD" \
+          python -m src.pipelines.train_pipeline
+        # Ejecuta el pipeline de entrenamiento (LightGBM + evaluación)
+
+  inference:                      # Job para la inferencia y commit de resultados
+    needs: setup
+    if: github.event_name == 'schedule' && github.event.schedule == '10 * * * *'
+    # Solo corre si el disparador fue el cron de minuto 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with: python-version: '3.10'
+      - name: Run inference pipeline
+        run: |
+          PYTHONPATH="$PWD" \
+          python -m src.pipelines.inference_pipeline
+        # Genera las predicciones y las guarda en data/processed/predictions.parquet
+
+      - name: Commit predictions
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/processed/predictions.parquet
+          git commit -m "🏷️ Update predictions [skip ci]" || echo "Nothing to commit"
+          git push
+        # Añade y hace push de las predicciones al repo, para versionarlas
