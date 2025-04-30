@@ -5,6 +5,7 @@ PARENT_DIR = Path(__file__).parent.resolve().parent
 DATA_DIR = PARENT_DIR / 'data'
 RAW_DATA_DIR = PARENT_DIR / 'data' / 'raw'
 TRANSFORMED_DATA_DIR = PARENT_DIR / 'data' / 'transformed'
+PROCESSED_DATA_DIR = PARENT_DIR / 'data' / 'processed'
 DATA_CACHE_DIR = PARENT_DIR / 'data' / 'cache'
 
 MODELS_DIR = PARENT_DIR / 'models'
