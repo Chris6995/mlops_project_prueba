@@ -1,0 +1,34 @@
+name: hourly-taxi-demand-feature-pipeline
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Cada hora
+
+jobs:
+
+  feature_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Instalar Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      # Instalar Poetry
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      
+      # Ejecutar Dependencias
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cache.outputs.cache-hit != 'true'
+
+      # Ejecutar el pipeline de features desde un script de bash
+      - name: execute python workflows from bash script
+        env: # le damos acceso a las variables de entornos
+          HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
+        run: poetry run jupyter nbconvert --to notebook --execute notebooks/13_feature_pipeline.ipynb 
+
