@@ -1,34 +1,68 @@
+# .github/workflows/feature_pipeline.yaml
+
 name: hourly-taxi-demand-feature-pipeline
 
 on:
   schedule:
-    - cron: '0 * * * *' # Cada hora
+    - cron: '0 * * * *'  # Ejecuta cada hora en minuto 0
+  workflow_dispatch:    # Permite disparar manualmente desde la UI
 
 jobs:
-
   feature_pipeline:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    env:
+      HOPSWORKS_HOST: c.app.hopsworks.ai
+      HOPSWORKS_PROJECT: taxi_demand
 
-      # Instalar Python
+    steps:
+      # 1. Clona el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Cachea dependencias de Poetry
+      - name: Cache Poetry cache
+        uses: actions/cache@v3
+        id: poetry-cache
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      # 3. Configura Python 3.10
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      
-      # Instalar Poetry
+
+      # 4. Instala Poetry
       - name: Install Poetry
         uses: snok/install-poetry@v1
-      
-      # Ejecutar Dependencias
-      - name: Install dependencies
-        run: poetry install
-        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          version: latest
 
-      # Ejecutar el pipeline de features desde un script de bash
-      - name: execute python workflows from bash script
-        env: # le damos acceso a las variables de entornos
+      # 5. Instala dependencias
+      - name: Install project dependencies
+        if: steps.poetry-cache.outputs.cache-hit != 'true'
+        run: |
+          poetry config virtualenvs.create true
+          poetry install --no-interaction --no-ansi
+
+      # 6. Ejecuta el notebook de feature pipeline
+      - name: Run feature pipeline notebook
+        env:
           HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
-        run: poetry run jupyter nbconvert --to notebook --execute notebooks/13_feature_pipeline.ipynb 
+        run: |
+          poetry run jupyter nbconvert \
+            --to notebook \
+            --execute notebooks/13_feature_pipeline.ipynb \
+            --inplace
 
+      # 7. (Opcional) Publicar el notebook ejecutado como artefacto
+      - name: Upload executed notebook
+        uses: actions/upload-artifact@v3
+        with:
+          name: executed-feature-pipeline-notebook
+          path: notebooks/13_feature_pipeline.ipynb
