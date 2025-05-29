@@ -24,6 +24,8 @@ def get_hopsworks_project() -> hopsworks.project.Project:
 def get_model_predictions(model, features: pd.DataFrame) -> pd.DataFrame:
     """"""
     # past_rides_columns = [c for c in features.columns if c.startswith('rides_')]
+
+    features = features.drop(columns=["pickup_hour"], errors="ignore") 
     predictions = model.predict(features)
 
     results = pd.DataFrame()

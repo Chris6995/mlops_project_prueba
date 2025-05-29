@@ -150,7 +150,7 @@ with st.spinner(text="Generating NYC Map"):
                 features=features,
                 targets = predictions['predicted_demand'],
                 example_id=row_id,
-                predictions_2 = pd.Series(predictions['predicted_demand'])
+                predictions = pd.Series(predictions['predicted_demand'])
             )
             st.plotly_chart(fig, theme="streamlit", use_container_width=True, width=1000)
 
