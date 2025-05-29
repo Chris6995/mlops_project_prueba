@@ -24,6 +24,8 @@ feast = "^0.48.1"
 hopsworks = "^4.2.2"
 confluent-kafka = "^2.10.0"
 dotenv = "^0.9.9"
+streamlit = "^1.45.1"
+geopandas = "^1.0.1"
 
 
 [build-system]
