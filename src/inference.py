@@ -124,7 +124,7 @@ def load_model_from_registry():
     )  
     
     model_dir = model.download()
-    model = joblib.load(Path(model_dir)  / 'model.pkl')
+    model = joblib.load(Path(model_dir)  / 'rf_model_v2.pkl')
        
     return model
 
