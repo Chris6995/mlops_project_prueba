@@ -1,0 +1,15 @@
+artifact_uri: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/e20cfae730e544819ac28a5ea856bb42/artifacts
+end_time: 1749056633966
+entry_point_name: ''
+experiment_id: '593164492010380515'
+lifecycle_stage: active
+run_id: e20cfae730e544819ac28a5ea856bb42
+run_name: RandomForest
+run_uuid: e20cfae730e544819ac28a5ea856bb42
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749056607813
+status: 4
+tags: []
+user_id: cdonairem

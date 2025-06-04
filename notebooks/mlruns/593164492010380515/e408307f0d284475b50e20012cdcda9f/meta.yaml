@@ -1,0 +1,15 @@
+artifact_uri: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/e408307f0d284475b50e20012cdcda9f/artifacts
+end_time: 1749056763213
+entry_point_name: ''
+experiment_id: '593164492010380515'
+lifecycle_stage: active
+run_id: e408307f0d284475b50e20012cdcda9f
+run_name: GradientBoosting
+run_uuid: e408307f0d284475b50e20012cdcda9f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749056741246
+status: 3
+tags: []
+user_id: cdonairem

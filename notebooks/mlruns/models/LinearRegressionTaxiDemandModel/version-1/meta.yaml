@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1749057066804
+current_stage: None
+description: null
+last_updated_timestamp: 1749057066804
+name: LinearRegressionTaxiDemandModel
+run_id: e87d7ea6defe43b489412f939aca9b12
+run_link: null
+source: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/e87d7ea6defe43b489412f939aca9b12/artifacts/model
+status: READY
+status_message: null
+storage_location: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/e87d7ea6defe43b489412f939aca9b12/artifacts/model
+user_id: null
+version: 1

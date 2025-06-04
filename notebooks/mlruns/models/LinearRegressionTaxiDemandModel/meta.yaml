@@ -1,0 +1,5 @@
+aliases: {}
+creation_timestamp: 1749057066800
+description: Linear Regression Model 24 lags
+last_updated_timestamp: 1749057101141
+name: LinearRegressionTaxiDemandModel
