@@ -7,7 +7,7 @@ from paths import PARENT_DIR
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-
+# sys.path.append(str(Path().resolve().parent / "src"))
 
 from src.feature_store_api import FeatureGroupConfig, FeatureViewConfig
 
@@ -45,8 +45,8 @@ FEATURE_VIEW_METADATA = FeatureViewConfig(
     feature_group=FEATURE_GROUP_METADATA,
 )
 
-MODEL_NAME = 'taxi_demand_predictor_next_hour'
-MODEL_VERSION = 4
+MODEL_NAME = 'taxi_demand_predictor_next_hour_gb'
+MODEL_VERSION = 2
 
 FEATURE_GROUP_PREDICTIONS_METADATA = FeatureGroupConfig(
     name='taxi_demand_predictions',  # ← corregido aquí

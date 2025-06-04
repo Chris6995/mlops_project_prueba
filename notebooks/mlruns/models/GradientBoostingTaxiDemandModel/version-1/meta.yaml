@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1749040796997
+current_stage: None
+description: Primera versión entrenada el 4/6/2025 con mae=3.24
+last_updated_timestamp: 1749041081333
+name: GradientBoostingTaxiDemandModel
+run_id: d77fd2aaf49a4fd09afbbef22d77db11
+run_link: null
+source: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/d77fd2aaf49a4fd09afbbef22d77db11/artifacts/model
+status: READY
+status_message: null
+storage_location: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/d77fd2aaf49a4fd09afbbef22d77db11/artifacts/model
+user_id: null
+version: 1

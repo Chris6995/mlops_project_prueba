@@ -1,0 +1,5 @@
+aliases: {}
+creation_timestamp: 1749040796993
+description: Modelo de predicción de demanda de taxis usando GradientBoosting
+last_updated_timestamp: 1749041145321
+name: GradientBoostingTaxiDemandModel

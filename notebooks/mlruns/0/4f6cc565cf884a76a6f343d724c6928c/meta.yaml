@@ -1,0 +1,15 @@
+artifact_uri: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/0/4f6cc565cf884a76a6f343d724c6928c/artifacts
+end_time: 1749042301113
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 4f6cc565cf884a76a6f343d724c6928c
+run_name: BatchInference
+run_uuid: 4f6cc565cf884a76a6f343d724c6928c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749042301035
+status: 3
+tags: []
+user_id: cdonairem

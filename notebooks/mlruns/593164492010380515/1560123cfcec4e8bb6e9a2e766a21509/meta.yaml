@@ -1,0 +1,15 @@
+artifact_uri: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/1560123cfcec4e8bb6e9a2e766a21509/artifacts
+end_time: 1749040217507
+entry_point_name: ''
+experiment_id: '593164492010380515'
+lifecycle_stage: active
+run_id: 1560123cfcec4e8bb6e9a2e766a21509
+run_name: Ridge
+run_uuid: 1560123cfcec4e8bb6e9a2e766a21509
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749040215612
+status: 3
+tags: []
+user_id: cdonairem

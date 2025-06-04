@@ -1,0 +1,15 @@
+artifact_uri: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/90d14b8000df4f0198d3039869f23725/artifacts
+end_time: 1749039783234
+entry_point_name: ''
+experiment_id: '593164492010380515'
+lifecycle_stage: active
+run_id: 90d14b8000df4f0198d3039869f23725
+run_name: LinearRegression
+run_uuid: 90d14b8000df4f0198d3039869f23725
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749039780504
+status: 3
+tags: []
+user_id: cdonairem

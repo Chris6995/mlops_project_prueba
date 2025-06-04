@@ -34,6 +34,7 @@ progress_bar = st.sidebar.header('Progress')
 progress_bar = st.sidebar.progress(0)
 N_STEPS = 7
 
+@st.cache_data
 def load_shape_data_file():
     """ Conocer zona del taxi a partir de las coordenadas de pickup"""
     # descargar el archivo zip con las zonas de taxi
@@ -63,7 +64,6 @@ with st.spinner(text="Obtención de funciones del almacén de funciones"):
     features = load_batch_of_features_from_store(current_date)
     st.sidebar.write('✅ Features de inferencia obtenidos')
     progress_bar.progress(2 / N_STEPS)
-    print(f'{features}')
 
 with st.spinner(text="Cargando modelo de ML del registro de modelos"):
     # load model from the model registry

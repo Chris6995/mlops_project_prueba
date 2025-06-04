@@ -1,0 +1,16 @@
+artifact_uri: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/0/574e77934ef94fd6ab10b40868f386bd/artifacts
+deleted_time: 1749042398733
+end_time: 1749042301033
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: 574e77934ef94fd6ab10b40868f386bd
+run_name: aged-skink-281
+run_uuid: 574e77934ef94fd6ab10b40868f386bd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749042071086
+status: 3
+tags: []
+user_id: cdonairem

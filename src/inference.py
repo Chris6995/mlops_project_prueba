@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+import streamlit as st
 import hopsworks
 # from hsfs.feature_store import FeatureStore
 import pandas as pd
@@ -34,7 +34,7 @@ def get_model_predictions(model, features: pd.DataFrame) -> pd.DataFrame:
     
     return results
 
-
+@st.cache_data
 def load_batch_of_features_from_store(
     current_date: pd.Timestamp,    
 ) -> pd.DataFrame:
@@ -111,7 +111,7 @@ def load_batch_of_features_from_store(
 
     return features
     
-
+@st.cache_resource
 def load_model_from_registry():
     
     import joblib
@@ -126,7 +126,7 @@ def load_model_from_registry():
     )  
     
     model_dir = model.download()
-    model = joblib.load(Path(model_dir)  / 'rf_model_v2.pkl')
+    model = joblib.load(Path(model_dir)  / 'gb_model.pkl')
        
     return model
 

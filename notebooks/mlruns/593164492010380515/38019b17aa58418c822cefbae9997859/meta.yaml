@@ -1,0 +1,15 @@
+artifact_uri: /Users/cdonairem/Documents/Workspace/proyecto_mlops_prueba_poetry/notebooks/mlruns/593164492010380515/38019b17aa58418c822cefbae9997859/artifacts
+end_time: 1749040219934
+entry_point_name: ''
+experiment_id: '593164492010380515'
+lifecycle_stage: active
+run_id: 38019b17aa58418c822cefbae9997859
+run_name: Lasso
+run_uuid: 38019b17aa58418c822cefbae9997859
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749040217509
+status: 3
+tags: []
+user_id: cdonairem
